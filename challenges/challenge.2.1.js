@@ -74,10 +74,7 @@ const orderBySkills = (candidateList) => {
  * @param {Array<Candidate>} candidateList
  * @returns
  */
-const c1 = new Candidate('C1', new Date(2010, 1, 1), [new Skill('S1'), new Skill('S2', 2), new Skill('S3', 1)]);
-const c2 = new Candidate('C2', new Date(2011, 1, 1), [new Skill('S1', 1), new Skill('S2', 1)]);
-const c3 = new Candidate('C3', new Date(2012, 1, 1), [new Skill('S1', 2)]);
-const cand = [c1, c2, c3];
+
 const orderByWeightedSkills = (candidateList) => {
   // ----- Challenge 2.1.4 - Complete the function here ---- //
   const skillValues = [];
@@ -89,24 +86,37 @@ const orderByWeightedSkills = (candidateList) => {
     candidate.skills.forEach((skill) => {
       skillSum += skillLevel[skill.level];
     });
-    console.log(skillSum);
+
     skillValues.push(skillSum);
     skillValues.sort((a, b) => b - a);
     skillLevelSort.splice(skillValues.indexOf(skillSum), 0, candidate);
   });
-  console.log(skillLevelSort);
+
   return skillLevelSort;
 };
-orderByWeightedSkills(cand);
 
 /**
  * Return the ratio of female/male candidates in the list
  * @param {Array<Candidate>} candidateList
  * @returns a floating point number indicating the ratio
  */
-const genderRatio = (candidateList) => {
 
+const genderRatio = (candidateList) => {
   // ----- Challenge 2.1.5 - Complete the function here ---- //
+  let genderRatio = 0;
+  let maleCount = 0;
+  let femaleCount = 0;
+
+  candidateList.forEach((candidate) => {
+    if (candidate.gender === 'M') {
+      maleCount++;
+    } else if (candidate.gender === 'F') {
+      femaleCount++;
+    }
+  });
+
+  genderRatio = femaleCount / maleCount;
+  return genderRatio.toFixed(2);
 };
 
 /**
@@ -115,12 +125,30 @@ const genderRatio = (candidateList) => {
  * @param {Array<Job>} jobs
  * @returns number (0-11)
  */
+const j1 = new Job('job1', '', [], undefined, new Date(2023, 1, 1));
+const j2 = new Job('job2', '', [], undefined, new Date(2023, 2, 2));
+const j3 = new Job('job3', '', [], undefined, new Date(2023, 2, 2));
+const jobs = [j1, j2, j3];
 const busiestMonth = (jobs) => {
   // ----- Challenge 2.1.6 - Complete the function here ---- //
+  const months = [];
+  const frequency = {};
+  jobs.forEach((job) => {
+    months.push(job.startDate.getMonth());
+  });
 
-  return 0;
+  for (let i = 0; i < months.length; i++) {
+    months[i] in frequency ? frequency[months[i]] += 1 : frequency[months[i]] = 1;
+  }
+
+  console.log(frequency);
+  const values = Object.values(frequency);
+  const maxValue = Math.max(...values);
+  const mostFrequentMonth = Object.entries(frequency).find(([k, v]) => v === maxValue)?.[0];
+
+  return mostFrequentMonth;
 };
-
+console.log(busiestMonth(jobs));
 /**
  * Return the skill name that is required the most in the given list of Jobs,
  * indicated by the requiredSkills property of each Job.
