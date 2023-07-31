@@ -125,10 +125,7 @@ const genderRatio = (candidateList) => {
  * @param {Array<Job>} jobs
  * @returns number (0-11)
  */
-const j1 = new Job('job1', '', [], undefined, new Date(2023, 1, 1));
-const j2 = new Job('job2', '', [], undefined, new Date(2023, 2, 2));
-const j3 = new Job('job3', '', [], undefined, new Date(2023, 2, 2));
-const jobs = [j1, j2, j3];
+
 const busiestMonth = (jobs) => {
   // ----- Challenge 2.1.6 - Complete the function here ---- //
   const months = [];
@@ -141,24 +138,33 @@ const busiestMonth = (jobs) => {
     months[i] in frequency ? frequency[months[i]] += 1 : frequency[months[i]] = 1;
   }
 
-  console.log(frequency);
   const values = Object.values(frequency);
   const maxValue = Math.max(...values);
   const mostFrequentMonth = Object.entries(frequency).find(([k, v]) => v === maxValue)?.[0];
 
   return mostFrequentMonth;
 };
-console.log(busiestMonth(jobs));
+
 /**
  * Return the skill name that is required the most in the given list of Jobs,
  * indicated by the requiredSkills property of each Job.
  *
  * @param {Array<Job>} jobs
  */
+
 const mostInDemandSkill = (jobs) => {
+// ----- Challenge 2.1.7 - Complete the function here ---- //
+  const requiredSkillFreq = {};
+  jobs.forEach((job) => {
+    job.requiredSkills.forEach((skill) => {
+      skill in requiredSkillFreq ? requiredSkillFreq[skill] += 1 : requiredSkillFreq[skill] = 1;
+    });
+  });
+  const values = Object.values(requiredSkillFreq);
+  const maxValue = Math.max(...values);
+  const mostFrequentSkill = Object.entries(requiredSkillFreq).find(([k, v]) => v === maxValue)?.[0];
 
-  // ----- Challenge 2.1.7 - Complete the function here ---- //
-
+  return mostFrequentSkill;
 };
 
 export { filterByDate, filterByBornAfter, orderBySkills, orderByWeightedSkills, genderRatio, busiestMonth, mostInDemandSkill };
