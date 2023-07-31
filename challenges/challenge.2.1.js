@@ -74,11 +74,30 @@ const orderBySkills = (candidateList) => {
  * @param {Array<Candidate>} candidateList
  * @returns
  */
+const c1 = new Candidate('C1', new Date(2010, 1, 1), [new Skill('S1'), new Skill('S2', 2), new Skill('S3', 1)]);
+const c2 = new Candidate('C2', new Date(2011, 1, 1), [new Skill('S1', 1), new Skill('S2', 1)]);
+const c3 = new Candidate('C3', new Date(2012, 1, 1), [new Skill('S1', 2)]);
+const cand = [c1, c2, c3];
 const orderByWeightedSkills = (candidateList) => {
   // ----- Challenge 2.1.4 - Complete the function here ---- //
+  const skillValues = [];
+  const skillLevelSort = [];
+  const skillLevel = { 0: 1, 1: 5, 2: 10 };
 
-  return candidateList;
+  candidateList.forEach((candidate) => {
+    let skillSum = 0;
+    candidate.skills.forEach((skill) => {
+      skillSum += skillLevel[skill.level];
+    });
+    console.log(skillSum);
+    skillValues.push(skillSum);
+    skillValues.sort((a, b) => b - a);
+    skillLevelSort.splice(skillValues.indexOf(skillSum), 0, candidate);
+  });
+  console.log(skillLevelSort);
+  return skillLevelSort;
 };
+orderByWeightedSkills(cand);
 
 /**
  * Return the ratio of female/male candidates in the list
