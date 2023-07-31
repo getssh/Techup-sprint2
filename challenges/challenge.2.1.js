@@ -20,8 +20,11 @@ import { Job, Candidate, Skill } from '../common/model.js';
  */
 const filterByDate = (jobs, startDate, endDate) => {
   // ----- Challenge 2.1.1 - Complete the function here ---- //
+  const filteredJobs = jobs.filter((job) => {
+    return job.startDate >= startDate && job.startDate <= endDate;
+  });
 
-  return [];
+  return filteredJobs;
 };
 
 /**
@@ -33,8 +36,11 @@ const filterByDate = (jobs, startDate, endDate) => {
  */
 const filterByBornAfter = (candidates, date) => {
   // ----- Challenge 2.1.2 - Complete the function here ---- //
+  const bornFilter = candidates.filter((candidate) => {
+    return candidate.dateOfBirth >= date;
+  });
 
-  return [];
+  return bornFilter;
 };
 
 /**
@@ -46,8 +52,18 @@ const filterByBornAfter = (candidates, date) => {
  */
 const orderBySkills = (candidateList) => {
   // ----- Challenge 2.1.3 - Complete the function here ---- //
+  const mostSkills = [];
+  const mostSkillCandidate = [];
 
-  return candidateList;
+  candidateList.forEach((candidate) => {
+    const skil = candidate.skills;
+    mostSkills.push(skil.length);
+    skil.length >= Math.max(...mostSkills)
+      ? mostSkillCandidate.unshift(candidate)
+      : mostSkillCandidate.push(candidate);
+  });
+
+  return mostSkillCandidate;
 };
 
 /**
