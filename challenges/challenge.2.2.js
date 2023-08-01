@@ -30,10 +30,16 @@ import { Candidate } from '../common/model.js';
  */
 const normalizedName = (name) => {
   // ----- Challenge 2.2.1 - Complete the function here ---- //
+  const vowels = ['A', 'E', 'I', 'O', 'U'];
+  name = name.replace(/[^A-Za-z]/g, '');
+  name = name.replace(/(.)\1+/g, '$1');
+  name = name.toUpperCase();
+  const firstLetter = vowels.includes(name[0]) ? name[0] : '';
+  name = name.replace(/[AEIOU]/g, '');
 
-  return name;
+  return firstLetter + name;
 };
-
+normalizedName('H/Mariam');
 /**
  * This function compares two candidates and returns true if all of the following are true:
  * - the candidates' normalized names are identical
