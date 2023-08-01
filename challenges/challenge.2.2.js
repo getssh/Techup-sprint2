@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Candidate } from '../common/model.js';
+import { Candidate, Skill } from '../common/model.js';
 
 /**
  * Part 2: Duplicate Candidate Detection
@@ -32,14 +32,14 @@ const normalizedName = (name) => {
   // ----- Challenge 2.2.1 - Complete the function here ---- //
   const vowels = ['A', 'E', 'I', 'O', 'U'];
   name = name.replace(/[^A-Za-z]/g, '');
-  name = name.replace(/(.)\1+/g, '$1');
   name = name.toUpperCase();
+  name = name.replace(/(.)\1+/g, '$1');
   const firstLetter = vowels.includes(name[0]) ? name[0] : '';
   name = name.replace(/[AEIOU]/g, '');
 
   return firstLetter + name;
 };
-normalizedName('H/Mariam');
+
 /**
  * This function compares two candidates and returns true if all of the following are true:
  * - the candidates' normalized names are identical
@@ -49,10 +49,12 @@ normalizedName('H/Mariam');
  * @param {Candidate} candidate2
  * @returns true or false
  */
+
 const areSimilarCandidates = (candidate1, candidate2) => {
   // ----- Challenge 2.2.2 - Complete the function here ---- //
-
-  return false;
+  const dayMilSecond = 24 * 60 * 60 * 1000;
+  return Math.abs(candidate1.dateOfBirth - candidate2.dateOfBirth) / dayMilSecond <= 10 &&
+  normalizedName(candidate1.name) === normalizedName(candidate2.name);
 };
 
 /**
@@ -62,10 +64,16 @@ const areSimilarCandidates = (candidate1, candidate2) => {
  * @param {Candidate} newCandidate
  * @param {Array<Candidate>} candidateList
  */
+
 const possibleDuplicates = (newCandidate, candidateList) => {
   // ------ Challenge 2.2.3 - Complete the function here ---- //
-
-  return [];
+  const posibbleDuplicate = [];
+  candidateList.forEach((candidate) => {
+    if (areSimilarCandidates(candidate, newCandidate)) {
+      posibbleDuplicate.push(candidate);
+    }
+  });
+  return posibbleDuplicate;
 };
 
 /**
@@ -83,9 +91,19 @@ const possibleDuplicates = (newCandidate, candidateList) => {
  * @param {Array<Candidate>} candidateList
  * @returns
  */
+
 const candidateIndex = (candidateList) => {
   // ------ Challenge 2.2.4 - Complete the function here ---- //
-  return 0;
+  const candidateNameObj = {};
+
+  candidateList.forEach((candidate) => {
+    const normalName = normalizedName(candidate.name);
+
+    normalName in candidateNameObj
+      ? candidateNameObj[normalName].push(candidate)
+      : candidateNameObj[normalName] = [candidate];
+  });
+  return candidateNameObj;
 };
 
 /**
