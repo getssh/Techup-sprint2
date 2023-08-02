@@ -116,30 +116,21 @@ const candidateIndex = (candidateList) => {
  *
  * @returns
  */
-const c1 = new Candidate('C1', new Date(2011, 1, 1));
-const c2 = new Candidate('C1', new Date(2011, 1, 1));
-const c3 = new Candidate('C3', new Date(2012, 1, 1));
-const c4 = new Candidate('C3', new Date(2012, 1, 1));
-const c5 = new Candidate('C3', new Date(2012, 1, 1));
+
 const duplicateCount = (candidateList) => {
   // ------ Challenge 2.2.5 - Complete the function here ---- //
-  const index = candidateIndex(candidateList);
   let duplicateCount = 0;
-
+  let duplicated = [];
   candidateList.forEach((candidate) => {
-    const similarCandidates = index[normalizedName(candidate.name)];
-
-    if (similarCandidates.length > 1) {
-      for (const similarCandidate of similarCandidates) {
-        if (areSimilarCandidates(candidate, similarCandidate) && candidate !== similarCandidate) {
-          duplicateCount++;
-          break; 
-        }
-      }
+    if (duplicated.includes(candidate)) {
+      return;
+    }
+    duplicated = possibleDuplicates(candidate, candidateList);
+    if (duplicated.length > 1) {
+      duplicateCount++;
     }
   });
-
   return duplicateCount;
 };
-console.log(duplicateCount([c1, c2, c3, c4, c5]));
+
 export { normalizedName, areSimilarCandidates, possibleDuplicates, duplicateCount, candidateIndex };
