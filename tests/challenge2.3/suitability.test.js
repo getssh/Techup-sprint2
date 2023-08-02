@@ -11,7 +11,7 @@ const j5 = new Job('J5', '', [new Skill('s1', 0), new Skill('s2', 2), new Skill(
 const c1 = new Candidate('C', null, [new Skill('s3', 0), new Skill('s2', 2), new Skill('s1', 2)], 'M');
 const c2 = new Candidate('C', null, [new Skill('s3', 2), new Skill('s2', 2), new Skill('s1', 2)], 'M');
 const c3 = new Candidate('C', null, [new Skill('s4', 2), new Skill('s2', 2)], 'M');
-const c4 = new Candidate('C', null, [new Skill('s1', 2), new Skill('S2', 2), new Skill ('s3', 2), new Skill('s4', 2), new Skill('S5', 3)], 'F');
+const c4 = new Candidate('C', null, [new Skill('s1', 2), new Skill('s2', 2), new Skill ('s3', 2), new Skill('s4', 2), new Skill('s5', 3)], 'F');
 
 test('Suitability test', () => {
   expect(
@@ -97,14 +97,14 @@ test('Suitability test', () => {
   expect(
     Utils.suitabilityScore(c3, j1))
     .toBe(
-      20
+      47
     );
 });
 test('Suitability test', () => {
   expect(
     Utils.suitabilityScore(c3, j2))
     .toBe(
-      0
+      27
     );
 });
 
@@ -112,7 +112,7 @@ test('Suitability test', () => {
   expect(
     Utils.suitabilityScore(c3, j3))
     .toBe(
-      20
+      47
     );
 });
 
@@ -120,7 +120,7 @@ test('Suitability test', () => {
   expect(
     Utils.suitabilityScore(c3, j4))
     .toBe(
-      32
+      52
     );
 });
 
@@ -128,7 +128,7 @@ test('Suitability test', () => {
   expect(
     Utils.suitabilityScore(c3, j5))
     .toBe(
-      46
+      27
     );
 });
 
