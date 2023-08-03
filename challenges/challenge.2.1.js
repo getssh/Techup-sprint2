@@ -150,11 +150,6 @@ const busiestMonth = (jobs) => {
  *
  * @param {Array<Job>} jobs
  */
-const j1 = new Job('job1', '', [new Skill('S1'), new Skill('S2', 0), new Skill('S3', 1)], undefined, new Date(2023, 1, 1));
-const j2 = new Job('job2', '', [new Skill('S1'), new Skill('S2', 0), new Skill('S3', 1)], undefined, new Date(2023, 2, 1));
-const j3 = new Job('job2', '', [new Skill('S1'), new Skill('S2', 0), new Skill('S3', 1)], undefined, new Date(2023, 2, 1));
-const j4 = new Job('job3', '', [new Skill('S1')], undefined, new Date(2023, 3, 1));
-
 const mostInDemandSkill = (jobs) => {
 // ----- Challenge 2.1.7 - Complete the function here ---- //
   const requiredSkillFreq = {};
@@ -170,5 +165,4 @@ const mostInDemandSkill = (jobs) => {
   return mostFrequentSkill;
 };
 
-console.log(mostInDemandSkill([j1, j2, j3, j4]));
 export { filterByDate, filterByBornAfter, orderBySkills, orderByWeightedSkills, genderRatio, busiestMonth, mostInDemandSkill };

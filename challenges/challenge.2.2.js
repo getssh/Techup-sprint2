@@ -64,7 +64,6 @@ const areSimilarCandidates = (candidate1, candidate2) => {
  * @param {Candidate} newCandidate
  * @param {Array<Candidate>} candidateList
  */
-
 const possibleDuplicates = (newCandidate, candidateList) => {
   // ------ Challenge 2.2.3 - Complete the function here ---- //
   const posibbleDuplicate = [];
@@ -120,15 +119,14 @@ const candidateIndex = (candidateList) => {
 const duplicateCount = (candidateList) => {
   // ------ Challenge 2.2.5 - Complete the function here ---- //
   let duplicateCount = 0;
-  let duplicated = [];
+  const duplicated = [];
   candidateList.forEach((candidate) => {
-    if (duplicated.includes(candidate)) {
+    if (duplicated.includes(candidate) ||
+    possibleDuplicates(candidate, candidateList).length < 2) {
       return;
     }
-    duplicated = possibleDuplicates(candidate, candidateList);
-    if (duplicated.length > 1) {
-      duplicateCount++;
-    }
+    duplicated.push(...possibleDuplicates(candidate, candidateList));
+    duplicateCount++;
   });
   return duplicateCount;
 };
