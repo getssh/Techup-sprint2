@@ -74,7 +74,6 @@ const orderBySkills = (candidateList) => {
  * @param {Array<Candidate>} candidateList
  * @returns
  */
-
 const orderByWeightedSkills = (candidateList) => {
   // ----- Challenge 2.1.4 - Complete the function here ---- //
   const skillValues = [];
@@ -151,13 +150,17 @@ const busiestMonth = (jobs) => {
  *
  * @param {Array<Job>} jobs
  */
+const j1 = new Job('job1', '', [new Skill('S1'), new Skill('S2', 0), new Skill('S3', 1)], undefined, new Date(2023, 1, 1));
+const j2 = new Job('job2', '', [new Skill('S1'), new Skill('S2', 0), new Skill('S3', 1)], undefined, new Date(2023, 2, 1));
+const j3 = new Job('job2', '', [new Skill('S1'), new Skill('S2', 0), new Skill('S3', 1)], undefined, new Date(2023, 2, 1));
+const j4 = new Job('job3', '', [new Skill('S1')], undefined, new Date(2023, 3, 1));
 
 const mostInDemandSkill = (jobs) => {
 // ----- Challenge 2.1.7 - Complete the function here ---- //
   const requiredSkillFreq = {};
   jobs.forEach((job) => {
     job.requiredSkills.forEach((skill) => {
-      skill in requiredSkillFreq ? requiredSkillFreq[skill] += 1 : requiredSkillFreq[skill] = 1;
+      skill.name in requiredSkillFreq ? requiredSkillFreq[skill.name] += 1 : requiredSkillFreq[skill.name] = 1;
     });
   });
   const values = Object.values(requiredSkillFreq);
@@ -167,4 +170,5 @@ const mostInDemandSkill = (jobs) => {
   return mostFrequentSkill;
 };
 
+console.log(mostInDemandSkill([j1, j2, j3, j4]));
 export { filterByDate, filterByBornAfter, orderBySkills, orderByWeightedSkills, genderRatio, busiestMonth, mostInDemandSkill };
