@@ -24,8 +24,18 @@ import { Candidate } from '../common/model.js';
  */
 const totalBonuses = (candidate, initialBonus) => {
   // ----- Challenge 2.4.1 - Complete the function here ---- //
-
-  return 0;
+  let totalBonus = 0;
+  let recommender = candidate.recommendedBy;
+  let recommendCount = 2;
+  while (recommender) {
+    totalBonus += initialBonus;
+    recommender = recommender.recommendedBy;
+    if (recommender) {
+      totalBonus += (initialBonus / recommendCount) - initialBonus;
+    }
+    recommendCount += 2;
+  }
+  return totalBonus;
 };
 
 export { totalBonuses };
