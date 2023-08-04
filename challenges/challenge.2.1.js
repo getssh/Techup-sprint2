@@ -109,7 +109,7 @@ const genderRatio = (candidateList) => {
   candidateList.forEach((candidate) => {
     if (candidate.gender === 'M') {
       maleCount++;
-    } else if (candidate.gender === 'F') {
+    } else {
       femaleCount++;
     }
   });
@@ -151,7 +151,7 @@ const busiestMonth = (jobs) => {
  * @param {Array<Job>} jobs
  */
 const mostInDemandSkill = (jobs) => {
-// ----- Challenge 2.1.7 - Complete the function here ---- //
+  // ----- Challenge 2.1.7 - Complete the function here ---- //
   const requiredSkillFreq = {};
   jobs.forEach((job) => {
     job.requiredSkills.forEach((skill) => {
