@@ -20,8 +20,11 @@ import { Job, Candidate, Skill } from '../common/model.js';
  */
 const filterByDate = (jobs, startDate, endDate) => {
   // ----- Challenge 2.1.1 - Complete the function here ---- //
+  const filteredJobs = jobs.filter((job) => {
+    return job.startDate >= startDate && job.startDate <= endDate;
+  });
 
-  return [];
+  return filteredJobs;
 };
 
 /**
@@ -33,8 +36,11 @@ const filterByDate = (jobs, startDate, endDate) => {
  */
 const filterByBornAfter = (candidates, date) => {
   // ----- Challenge 2.1.2 - Complete the function here ---- //
+  const bornFilter = candidates.filter((candidate) => {
+    return candidate.dateOfBirth >= date;
+  });
 
-  return [];
+  return bornFilter;
 };
 
 /**
@@ -46,8 +52,18 @@ const filterByBornAfter = (candidates, date) => {
  */
 const orderBySkills = (candidateList) => {
   // ----- Challenge 2.1.3 - Complete the function here ---- //
+  const mostSkills = [];
+  const mostSkillCandidate = [];
 
-  return candidateList;
+  candidateList.forEach((candidate) => {
+    const skil = candidate.skills;
+    mostSkills.push(skil.length);
+    skil.length >= Math.max(...mostSkills)
+      ? mostSkillCandidate.unshift(candidate)
+      : mostSkillCandidate.push(candidate);
+  });
+
+  return mostSkillCandidate;
 };
 
 /**
@@ -60,8 +76,22 @@ const orderBySkills = (candidateList) => {
  */
 const orderByWeightedSkills = (candidateList) => {
   // ----- Challenge 2.1.4 - Complete the function here ---- //
+  const skillValues = [];
+  const skillLevelSort = [];
+  const skillLevel = { 0: 1, 1: 5, 2: 10 };
 
-  return candidateList;
+  candidateList.forEach((candidate) => {
+    let skillSum = 0;
+    candidate.skills.forEach((skill) => {
+      skillSum += skillLevel[skill.level];
+    });
+
+    skillValues.push(skillSum);
+    skillValues.sort((a, b) => b - a);
+    skillLevelSort.splice(skillValues.indexOf(skillSum), 0, candidate);
+  });
+
+  return skillLevelSort;
 };
 
 /**
@@ -69,9 +99,21 @@ const orderByWeightedSkills = (candidateList) => {
  * @param {Array<Candidate>} candidateList
  * @returns a floating point number indicating the ratio
  */
-const genderRatio = (candidateList) => {
 
+const genderRatio = (candidateList) => {
   // ----- Challenge 2.1.5 - Complete the function here ---- //
+  let maleCount = 0;
+  let femaleCount = 0;
+
+  candidateList.forEach((candidate) => {
+    if (candidate.gender === 'M') {
+      maleCount++;
+    } else {
+      femaleCount++;
+    }
+  });
+
+  return (femaleCount / maleCount).toFixed(2);
 };
 
 /**
@@ -80,10 +122,24 @@ const genderRatio = (candidateList) => {
  * @param {Array<Job>} jobs
  * @returns number (0-11)
  */
+
 const busiestMonth = (jobs) => {
   // ----- Challenge 2.1.6 - Complete the function here ---- //
+  const months = [];
+  const frequency = {};
+  jobs.forEach((job) => {
+    months.push(job.startDate.getMonth());
+  });
 
-  return 0;
+  for (let i = 0; i < months.length; i++) {
+    months[i] in frequency ? frequency[months[i]] += 1 : frequency[months[i]] = 1;
+  }
+
+  const values = Object.values(frequency);
+  const maxValue = Math.max(...values);
+  const mostFrequentMonth = Object.entries(frequency).find(([k, v]) => v === maxValue)?.[0];
+
+  return mostFrequentMonth;
 };
 
 /**
@@ -93,9 +149,18 @@ const busiestMonth = (jobs) => {
  * @param {Array<Job>} jobs
  */
 const mostInDemandSkill = (jobs) => {
-
   // ----- Challenge 2.1.7 - Complete the function here ---- //
+  const requiredSkillFreq = {};
+  jobs.forEach((job) => {
+    job.requiredSkills.forEach((skill) => {
+      skill.name in requiredSkillFreq ? requiredSkillFreq[skill.name] += 1 : requiredSkillFreq[skill.name] = 1;
+    });
+  });
+  const values = Object.values(requiredSkillFreq);
+  const maxValue = Math.max(...values);
+  const mostFrequentSkill = Object.entries(requiredSkillFreq).find(([k, v]) => v === maxValue)?.[0];
 
+  return mostFrequentSkill;
 };
 
 export { filterByDate, filterByBornAfter, orderBySkills, orderByWeightedSkills, genderRatio, busiestMonth, mostInDemandSkill };
