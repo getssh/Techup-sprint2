@@ -76,22 +76,18 @@ const orderBySkills = (candidateList) => {
  */
 const orderByWeightedSkills = (candidateList) => {
   // ----- Challenge 2.1.4 - Complete the function here ---- //
-  const skillValues = [];
-  const skillLevelSort = [];
   const skillLevel = { 0: 1, 1: 5, 2: 10 };
 
   candidateList.forEach((candidate) => {
-    let skillSum = 0;
-    candidate.skills.forEach((skill) => {
-      skillSum += skillLevel[skill.level];
-    });
-
-    skillValues.push(skillSum);
-    skillValues.sort((a, b) => b - a);
-    skillLevelSort.splice(skillValues.indexOf(skillSum), 0, candidate);
+    candidate.weightedSkillSum = candidate.skills.reduce((sum, skill) => sum + skillLevel[skill.level], 0);
   });
 
-  return skillLevelSort;
+  candidateList.sort((a, b) => b.weightedSkillSum - a.weightedSkillSum);
+  candidateList.forEach((candidate) => {
+    delete candidate.weightedSkillSum;
+  });
+
+  return candidateList;
 };
 
 /**
@@ -113,7 +109,7 @@ const genderRatio = (candidateList) => {
     }
   });
 
-  return (femaleCount / maleCount).toFixed(2);
+  return parseFloat((femaleCount / maleCount).toFixed(2));
 };
 
 /**
@@ -125,21 +121,21 @@ const genderRatio = (candidateList) => {
 
 const busiestMonth = (jobs) => {
   // ----- Challenge 2.1.6 - Complete the function here ---- //
-  const months = [];
-  const frequency = {};
+  const frequency = new Array(12).fill(0);
+
   jobs.forEach((job) => {
-    months.push(job.startDate.getMonth());
+    const month = job.startDate.getMonth();
+    frequency[month]++;
   });
 
-  for (let i = 0; i < months.length; i++) {
-    months[i] in frequency ? frequency[months[i]] += 1 : frequency[months[i]] = 1;
+  let busiestMonth = 0;
+  for (let i = 1; i < frequency.length; i++) {
+    if (frequency[i] > frequency[busiestMonth]) {
+      busiestMonth = i;
+    }
   }
 
-  const values = Object.values(frequency);
-  const maxValue = Math.max(...values);
-  const mostFrequentMonth = Object.entries(frequency).find(([k, v]) => v === maxValue)?.[0];
-
-  return mostFrequentMonth;
+  return busiestMonth;
 };
 
 /**
@@ -153,12 +149,19 @@ const mostInDemandSkill = (jobs) => {
   const requiredSkillFreq = {};
   jobs.forEach((job) => {
     job.requiredSkills.forEach((skill) => {
-      skill.name in requiredSkillFreq ? requiredSkillFreq[skill.name] += 1 : requiredSkillFreq[skill.name] = 1;
+      requiredSkillFreq[skill.name] = (requiredSkillFreq[skill.name] || 0) + 1;
     });
   });
-  const values = Object.values(requiredSkillFreq);
-  const maxValue = Math.max(...values);
-  const mostFrequentSkill = Object.entries(requiredSkillFreq).find(([k, v]) => v === maxValue)?.[0];
+
+  let mostFrequentSkill = null;
+  let maxFrequency = 0;
+
+  for (const skillName in requiredSkillFreq) {
+    if (requiredSkillFreq[skillName] > maxFrequency) {
+      maxFrequency = requiredSkillFreq[skillName];
+      mostFrequentSkill = skillName;
+    }
+  }
 
   return mostFrequentSkill;
 };

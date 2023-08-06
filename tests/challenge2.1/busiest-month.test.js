@@ -11,15 +11,15 @@ const j6 = new Job('job3', '', [], undefined, new Date(2023, 3, 1));
 
 test('Busiest Month Test', () => {
   expect(Utils.busiestMonth([j1, j2, j3, j4, j5, j6]))
-    .toEqual('3');
+    .toEqual(3);
 });
 
 test('Busiest Month Test', () => {
   expect(Utils.busiestMonth([j1, j2, j3, j4]))
-    .toEqual('2');
+    .toEqual(2);
 });
 
 test('Busiest Month Test', () => {
   expect(Utils.busiestMonth([j1, j2, j3, j4, j5, j6]))
-    .toEqual('3');
+    .toEqual(3);
 });
