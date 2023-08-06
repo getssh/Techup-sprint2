@@ -75,23 +75,16 @@ const orderBySkills = (candidateList) => {
  * @returns
  */
 const orderByWeightedSkills = (candidateList) => {
-  // ----- Challenge 2.1.4 - Complete the function here ---- //
-  const skillValues = [];
-  const skillLevelSort = [];
   const skillLevel = { 0: 1, 1: 5, 2: 10 };
 
+  // Calculate the weighted skill sum for each candidate
   candidateList.forEach((candidate) => {
-    let skillSum = 0;
-    candidate.skills.forEach((skill) => {
-      skillSum += skillLevel[skill.level];
-    });
-
-    skillValues.push(skillSum);
-    skillValues.sort((a, b) => b - a);
-    skillLevelSort.splice(skillValues.indexOf(skillSum), 0, candidate);
+    candidate.weightedSkillSum = candidate.skills.reduce((sum, skill) => sum + skillLevel[skill.level], 0);
   });
 
-  return skillLevelSort;
+  candidateList.sort((a, b) => b.weightedSkillSum - a.weightedSkillSum);
+
+  return candidateList;
 };
 
 /**
