@@ -75,14 +75,17 @@ const orderBySkills = (candidateList) => {
  * @returns
  */
 const orderByWeightedSkills = (candidateList) => {
+  // ----- Challenge 2.1.4 - Complete the function here ---- //
   const skillLevel = { 0: 1, 1: 5, 2: 10 };
 
-  // Calculate the weighted skill sum for each candidate
   candidateList.forEach((candidate) => {
     candidate.weightedSkillSum = candidate.skills.reduce((sum, skill) => sum + skillLevel[skill.level], 0);
   });
 
   candidateList.sort((a, b) => b.weightedSkillSum - a.weightedSkillSum);
+  candidateList.forEach((candidate) => {
+    delete candidate.weightedSkillSum;
+  });
 
   return candidateList;
 };
@@ -106,7 +109,7 @@ const genderRatio = (candidateList) => {
     }
   });
 
-  return (femaleCount / maleCount).toFixed(2);
+  return parseFloat((femaleCount / maleCount).toFixed(2));
 };
 
 /**
@@ -118,21 +121,21 @@ const genderRatio = (candidateList) => {
 
 const busiestMonth = (jobs) => {
   // ----- Challenge 2.1.6 - Complete the function here ---- //
-  const months = [];
-  const frequency = {};
+  const frequency = new Array(12).fill(0);
+
   jobs.forEach((job) => {
-    months.push(job.startDate.getMonth());
+    const month = job.startDate.getMonth();
+    frequency[month]++;
   });
 
-  for (let i = 0; i < months.length; i++) {
-    months[i] in frequency ? frequency[months[i]] += 1 : frequency[months[i]] = 1;
+  let busiestMonth = 0;
+  for (let i = 1; i < frequency.length; i++) {
+    if (frequency[i] > frequency[busiestMonth]) {
+      busiestMonth = i;
+    }
   }
 
-  const values = Object.values(frequency);
-  const maxValue = Math.max(...values);
-  const mostFrequentMonth = Object.entries(frequency).find(([k, v]) => v === maxValue)?.[0];
-
-  return mostFrequentMonth;
+  return busiestMonth;
 };
 
 /**
