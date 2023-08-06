@@ -31,9 +31,7 @@ import { Candidate, Skill } from '../common/model.js';
 const normalizedName = (name) => {
   // ----- Challenge 2.2.1 - Complete the function here ---- //
   const vowels = ['A', 'E', 'I', 'O', 'U'];
-  name = name.replace(/[^A-Za-z]/g, '');
-  name = name.toUpperCase();
-  name = name.replace(/(.)\1+/g, '$1');
+  name = name.replace(/[^A-Za-z]/g, '').toUpperCase().replace(/(.)\1+/g, '$1');
   const firstLetter = vowels.includes(name[0]) ? name[0] : '';
   name = name.replace(/[AEIOU]/g, '');
 

@@ -102,7 +102,6 @@ const orderByWeightedSkills = (candidateList) => {
 
 const genderRatio = (candidateList) => {
   // ----- Challenge 2.1.5 - Complete the function here ---- //
-  let genderRatio = 0;
   let maleCount = 0;
   let femaleCount = 0;
 
@@ -114,8 +113,7 @@ const genderRatio = (candidateList) => {
     }
   });
 
-  genderRatio = femaleCount / maleCount;
-  return genderRatio.toFixed(2);
+  return (femaleCount / maleCount).toFixed(2);
 };
 
 /**
