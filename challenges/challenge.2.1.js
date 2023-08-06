@@ -149,12 +149,19 @@ const mostInDemandSkill = (jobs) => {
   const requiredSkillFreq = {};
   jobs.forEach((job) => {
     job.requiredSkills.forEach((skill) => {
-      skill.name in requiredSkillFreq ? requiredSkillFreq[skill.name] += 1 : requiredSkillFreq[skill.name] = 1;
+      requiredSkillFreq[skill.name] = (requiredSkillFreq[skill.name] || 0) + 1;
     });
   });
-  const values = Object.values(requiredSkillFreq);
-  const maxValue = Math.max(...values);
-  const mostFrequentSkill = Object.entries(requiredSkillFreq).find(([k, v]) => v === maxValue)?.[0];
+
+  let mostFrequentSkill = null;
+  let maxFrequency = 0;
+
+  for (const skillName in requiredSkillFreq) {
+    if (requiredSkillFreq[skillName] > maxFrequency) {
+      maxFrequency = requiredSkillFreq[skillName];
+      mostFrequentSkill = skillName;
+    }
+  }
 
   return mostFrequentSkill;
 };
